@@ -1,0 +1,82 @@
+{% extends "master.html" %}
+
+{% block title %}Graficas{% endblock title %}
+{% block content %}
+
+    <style>
+        .chart-container {
+            width: 500px;
+            height: 500px;
+            margin: 20px;
+            display: inline-block;
+        }
+        .chart-canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <h1>{{ title }}</h1>
+
+    {% for calibre in calibres %}
+    <div class="chart-container">
+        <h2>Calibre {{ calibre }}</h2>
+        <canvas id="chart-{{ calibre }}" class="chart-canvas"></canvas>
+    </div>
+    {% endfor %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parsear los datos JSON enviados desde la vista
+            var data = JSON.parse('{{ data_json|escapejs }}');
+            console.log('Data:', data);
+
+            {% for calibre in calibres %}
+                var canvas = document.getElementById('chart-{{ calibre }}');
+                if (canvas) {
+                    var ctx = canvas.getContext('2d');
+
+                    var datosCalibre = data['{{ calibre }}'];
+                    console.log('Calibre {{ calibre }}:', datosCalibre);
+
+                    if (datosCalibre !== undefined) {
+                        var chartData = {
+                            labels: Array.from({ length: datosCalibre.length }, (_, i) => i + 1), // Etiquetas de ejes X
+                            datasets: [{
+                                label: 'Presión',
+                                data: datosCalibre,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1,
+                                fill: false
+                            }]
+                        };
+
+                        var options = {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                },
+                                x: {
+                                    beginAtZero: true
+                                }
+                            }
+                        };
+
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: chartData,
+                            options: options
+                        });
+                    } else {
+                        console.error('Datos para calibre {{ calibre }} no encontrados.');
+                    }
+                } else {
+                    console.error('Canvas no encontrado para calibre {{ calibre }}');
+                }
+            {% endfor %}
+        });
+    </script>
+
+
+
+
+
+{% endblock  %}

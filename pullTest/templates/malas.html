@@ -1,0 +1,28 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %}{{title}}{% endblock  %} </title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'malas.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Pull Test erroneo</h1>
+        <ul class="list-group">
+            <li >La prueba que ingreso no alcanzo O supero las libras de 
+                presion necesarias
+            </li>
+            <br>
+            <li >Pongase en contacto con su supervisor para que este enterado</li>
+            <br>
+            <li >Por ultimo realize una nueva prueba en el link de abajo</li>
+            <br>
+            <li >A fourth item</li>
+            <br>
+            <li ><a href="{{'test'}}"> Registrar una nueva prueba</a></li>
+          </ul>
+        </div>  
+    </body>
+</html>    

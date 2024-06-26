@@ -1,0 +1,123 @@
+{% extends "rh/master_rh.html" %}
+{% block content %}
+<div class="container-xx">
+    <div class="grid-container">
+      <div class="section section1"  >
+        <table>
+            <thead>
+                <th>Empleado</th>
+                <th>Fecha de Solicitud</th>
+                <th>Estatus</th>
+                <th>Dias Solicitados</th>
+            </thead>
+            <tbody>
+              {% for vac in vacaciones %}
+              <tr>
+                <td>{{vac.id_empleado}}</td>
+                <td>{{vac.fecha_de_solicitud}}</td>
+                <td>{{vac.estatus}}</td>
+                <td>{{vac.dias_solicitados}}</td>
+
+              
+              {% endfor %}
+        </table>        
+      </div>
+      <div class="section section2">
+        <div class="container">
+          <canvas id="myChart" width="400" height="200"></canvas>
+      </div>
+      
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+          document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var labels = [{% for lab in labels %}
+            '{{ lab }}'{% if not forloop.last %}, {% endif %}
+        {% endfor %}];
+
+            var data = {
+                labels: labels,
+                  datasets: [{
+                    label: 'Vacaciones por mes ',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    data: [{% for dt in data  %}
+                   {{dt}} {% if not forloop.last %}, {% endif %}
+                    {% endfor %}]
+                }]
+            };
+            
+            new Chart(ctx, {
+                type: 'bar', // or 'line', 'pie', etc.
+                data: data,
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+      </script>
+      </div>
+      <div class="section section3">
+        <div class="reportes">
+          <lable  id='reporte'>Reporte por numero de empleado</label>
+            <input type='text' id='numEmp' onchange="resultados_rep()">
+            <div id="result_rep">
+            </div>
+        </div>
+      </div>
+      <div class="section section4">Section 4</div>
+  </div>
+</div>
+<script>
+  function resultados_rep() {
+    var informacion = document.getElementById('numEmp').value;
+    if (informacion) {
+      var url = `/rh/reportes/${informacion}/`;
+      fetch(url)
+        .then(response => response.json())
+        .then(datos => {
+          console.log(datos);
+          var result_rep = document.getElementById('result_rep');
+          result_rep.innerHTML = 
+            `<table>
+              <thead>
+                <tr>
+                  <th>Empleado</th>
+                  <th>Fecha de Solicitud</th>
+                  <th>Días Solicitados</th>
+                  <th>Estatus</th>
+                  <th>Reporte</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${datos.rep.map(registro => `
+                  <tr>
+                    <td>${registro.id_empleado}</td>
+                    <td>${registro.fecha_de_solicitud}</td>
+                    <td>${registro.dias_solicitados}</td>
+                    <td>${registro.estatus}</td>
+                  <td>  <form method="GET" action="{{'generate_pdf'}}">
+            <input type="hidden" name="id_emp" value="${registro.id_empleado}">
+            <input type="hidden" name="fecha" value="${registro.fecha_de_solicitud}">
+            <input type="hidden" name="dias" value="${registro.dias_solicitados}">
+            <input type="submit" value="pdf">
+          </form></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>`;
+        })
+        .catch(error => console.error(error));
+    }
+  }
+  
+
+</script>
+
+{% endblock  %}

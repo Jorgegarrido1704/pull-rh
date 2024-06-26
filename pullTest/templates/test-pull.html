@@ -1,0 +1,86 @@
+<!-- myapp/templates/myapp/test-pull.html -->
+{% extends "master.html" %}
+{% block title %}
+Registros de prubas de pull
+{% endblock  %}
+{% block content %}
+<div class="container">
+   <!-- myapp/templates/myapp/form.html -->
+<form class="row g-3" method="POST">
+    {% csrf_token %}
+    
+    <div class="col-md-6">
+        <label for="{{ form.cliente.id_for_label }}" class="form-label">{{ form.cliente.label }}</label>
+        {{ form.cliente }}
+    </div>
+    <div class="col-md-6">
+        <label for="{{ form.Num_part.id_for_label }}" class="form-label">Numero de Parte</label>
+        {{ form.Num_part }}
+    </div>
+    <div class="col-6">
+        <label for="{{ form.wo.id_for_label }}" class="form-label">Work Order</label>
+        {{ form.wo }}
+    </div>
+    <div class="col-6">
+        <label for="{{ form.cont.id_for_label }}" class="form-label">Terminal aplicada</label>
+        {{ form.cont }}
+    </div>
+    <div class="col-md-3">
+        <label for="{{ form.forma.id_for_label }}" class="form-label">Forma de aplicacion de terminal</label>
+        {{ form.forma }}
+    </div>
+    <div class="col-md-3">
+        <label for="{{ form.presion.id_for_label }}" class="form-label">Presion (LB)</label>
+        {{ form.presion }}
+    </div>
+    <div class="col-md-3">
+        <label for="{{ form.quien.id_for_label }}" class="form-label">Quien realizo la prueba </label>
+        {{ form.quien }}
+    </div>
+    <div class="col-md-3">
+        <label for="{{ form.calibre.id_for_label }}" class="form-label">{{ form.calibre.label }}</label>
+        {{form.calibre}}
+    </div>
+    
+    <div class="col-12" align="center">
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </div>
+</form>
+<h2>Registros</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Num Part</th>
+            <th>WO</th>
+            <th>Calibre</th>
+            <th>Presion</th>
+            <th>Forma de aplicacion</th>
+            <th>Terminal</th>
+            <th>Quien aplico</th>
+            <th>Validador</th>
+            <th>Resultado</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reg in registros %}
+        <tr>
+            <td>{{ reg.cliente }}</td>
+            <td>{{ reg.Num_part }}</td>
+            <td>{{ reg.wo }}</td>
+            <td>{{ reg.calibre }}</td>
+            <td>{{ reg.presion }}</td>
+            <td>{{ reg.forma }}</td>
+            <td>{{ reg.cont }}</td>
+            <td>{{ reg.quien }}</td>
+            <td>{{ reg.val }}</td>
+            <td>{{ reg.tipo }}</td>
+            <td>{{ reg.fecha }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock content %}

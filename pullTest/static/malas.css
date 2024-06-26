@@ -1,0 +1,16 @@
+body{
+    background-color: rgb(254, 29, 29);
+}
+li,ul{
+    text-align: center;
+}
+.container{
+    text-align: center;
+    font-style: bold;
+    font-size: xx-large;
+
+}
+a{
+    color: white;
+    text-decoration: none;
+}

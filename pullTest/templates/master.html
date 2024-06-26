@@ -1,0 +1,33 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %}{{title}}{% endblock  %} </title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'estilos.css' %}">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{% static 'js/graficas.js' %}"></script>
+    </head>
+    <body>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{'/pull'}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{'test'}}">Registro Pull Test</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{'graficas'}}">Graficas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{user}}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{'logout_view'}}">Logout</a>
+            </li>
+            
+          </ul>
+       {% block content %} {% endblock  %} 
+    </body>
+</html>    

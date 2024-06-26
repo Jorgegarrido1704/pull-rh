@@ -1,0 +1,14 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %}{{title}}{% endblock  %} </title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'estiloLogin.css' %}">
+    </head>
+    <body>
+
+       {% block login %} {% endblock  %} 
+    </body>
+</html>    

@@ -1,0 +1,39 @@
+/* Estilos generales */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    padding: 20px;
+    border: 2px solid black;    
+    box-sizing: border-box;
+}
+
+/* Estilo para alinear el contenido del header en una línea */
+.header {
+    display: flex;
+    align-items: center; /* Alinear los elementos verticalmente al centro */
+}
+
+/* Alinear elementos dentro de inf-head en una línea */
+.inf-head {
+    display: flex;
+    align-items: center; /* Alinear los elementos verticalmente al centro */
+    margin-left: 20px; /* Espacio entre img_verg y inf-head */
+}
+
+/* Estilos para los divs internos de inf-head */
+.fecha-reg, .clave, .registro-v3 {
+    margin-right: 10px; /* Espacio entre los elementos de inf-head */
+}
+
+.img-berg {
+    width: 70%;
+    border: 1px solid black;
+}
+.fecha{
+    display: inline-block;
+}

@@ -1,0 +1,54 @@
+{% extends "rh/master_rh.html" %}
+{% block content %}
+<div class="container-x">
+    <form method="POST" >
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.id_empleado.label_tag }}
+    {{form.id_empleado}}
+        </div>
+        <div class="mb-3">
+            {{ form.fecha_de_solicitud.label_tag }}
+            {{ form.fecha_de_solicitud }}
+        </div>
+        <div class="mb-3">
+            {{ form.estatus.label_tag }}
+           {{form.estatus}}
+        </div>
+        <div class="mb-3">
+            {{ form.dias_solicitados.label_tag }}
+            {{ form.dias_solicitados }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<br>
+<div id="datos">
+</div>
+<script>
+    function datos(){
+        var datos = document.getElementById('id_empleado').value;
+        if(datos){
+           
+            var url = `/rh/vacaciones_detalles/${datos}/`;
+            fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                console.log(data)
+                document.getElementById('datos').innerHTML = `
+                <p><strong>Nombre:</strong> ${data.vac.id_empleado}</p>
+                <p><strong>Numero de empleado:</strong> ${data.vac.numero_empleado}</p>
+                <p><strong>Fehca de ingreso:</strong> ${data.vac.fecha_de_entrada}</p>
+                <p><strong>Antiguedad:</strong> ${data.vac.antiguedad}</p>     
+                <p><strong>Días por Antiguedad:</strong> ${data.vac.dias_por_ano}</p>     
+                <p><strong>Fecha de corte:</strong> ${data.vac.fecha_de_corte}</p>
+                <p><strong>Dias disponible:</strong> ${data.vac.dias_disponibles}</p>
+                <p><strong>Días usados:</strong> ${data.vac.dias_utilizados}</p>
+                <p><strong>Ultima fecha de solicitud:</strong> ${data.vac.ultima_fecha_de_solicitud}</p>`;
+              })
+              .catch(error => console.error(error));
+        }
+
+    }
+</script>
+{% endblock content %}

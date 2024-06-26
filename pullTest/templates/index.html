@@ -1,0 +1,40 @@
+{% extends "master.html" %}
+{% block title %}Registro de pruebas de pull{% endblock title %}
+{% block content %}
+<h2>Registros</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Calibre</th>
+            <th>Cliente</th>
+            <th>Numero de parte</th>
+            <th>Work Order</th>
+            <th>Presion de la prueba</th>
+            <th>Forma de aplicado</th>
+            <th>Terminal</th>
+            <th>Quien aplico la prueba</th>
+            <th>Validador</th>
+            <th>Resultado</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reg in registros %}
+        <tr>
+            <td>{{ reg.calibre }}</td>
+            <td>{{ reg.cliente }}</td>
+            <td>{{ reg.Num_part }}</td>
+            <td>{{ reg.wo }}</td>
+            <td>{{ reg.presion }}</td>
+            <td>{{ reg.forma }}</td>
+            <td>{{ reg.cont }}</td>
+            <td>{{ reg.quien }}</td>
+            <td>{{ reg.val }}</td>
+            <td>{{ reg.tipo }}</td>
+            <td>{{ reg.fecha }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock  %}
