@@ -13,3 +13,10 @@ def diarios(request):
         
     }
     return HttpResponse(template.render(content,request))
+def index(request):
+    template = loader.get_template('herramental/index_herr.html')
+    content={
+        'title': 'Home',
+        
+    }
+    return HttpResponse(template.render(content,request))
