@@ -16,3 +16,15 @@ class Herramental(models.Model):
         
     def __str__(self):
         return self.herramental
+ 
+class Golpes_diarios(models.Model):
+    herramental = models.CharField(max_length=30)
+    terminal = models.CharField(max_length=30)
+    fecha_reg = models.DateField(auto_now_add=True)
+    golpesDiarios = models.IntegerField(default=0)
+    
+    class Meta:
+        db_table = "mant_golpes"
+        
+    def __str__(self):
+        return self.herramental

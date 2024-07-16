@@ -8,21 +8,92 @@
         <link rel="stylesheet" href="{% static 'herr_stilos.css' %}">
     </head>
     <body>
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{{'/herramental'}}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{'/herramental/diarios'}}">Tabla Golpes Diarios</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{user}}</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/">Logout</a>
-            </li>
-          </ul>
+       <div><span id="cvts">CVTS</span><span id ="jorge"> By Jorge Garrido</span></div>
       
-       {% block content %} {% endblock  %} 
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+              <span data-feather="users">Usuario: </span>
+              {{user}}</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{'/herramental'}}">
+            <span data-feather="home"></span>
+            Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{'/herramental/diarios'}}">
+              <span data-feather="file"></span>
+              Tabla Golpes Diarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{'/herramental/mantenimientos'}}">
+              <span data-feather="shopping-cart"></span>
+              Registros de mantenimientos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/">Cerrar sesion</a>
+              <span data-feather="bar-chart-2"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="layers"></span>
+              Integrations
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Saved reports</span>
+          <a class="link-secondary" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Current month
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Last quarter
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Social engagement
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file-text"></span>
+              Year-end sale
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      {% block content %} {% endblock  %} 
+      
+      </main>
+    
+  </div>
+</div>
+
+
+
+      
+        
+      
     </body>
 </html>    

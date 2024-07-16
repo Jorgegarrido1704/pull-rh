@@ -1,0 +1,27 @@
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  #jorge {
+    color: rgb(67, 70, 67);
+  }
+  #cvts {
+    font-style: bold;
+    font-size: x-large;
+    color: rgb(250, 53, 53);
+  }
+
+ .card-body{
+    max-height: 400px;
+    overflow-y: scroll;
+ } 

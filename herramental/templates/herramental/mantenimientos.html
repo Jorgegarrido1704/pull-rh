@@ -1,0 +1,31 @@
+{%extends 'herramental/master_herr.html'%}
+
+{% block content %}        
+        <h2>Golpes Diarios</h2>
+        <div class="table-responsive">
+            <table class="table table-success table-striped">
+                <thead>
+                    <tr>
+                        <th>Herramental</th>
+                        <th>Terminal</th>
+                        <th>Fecha</th>
+                        <th>Golpes Totales</th>
+                        <th>Maquina</th>  
+                        <th>Total Mantenimientos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for diario in diarios %}
+                    <tr>
+                        <td class="table-info">{{ diario.herramental }}</td>
+                        <td class="table-info">{{ diario.terminal }}</td>
+                        <td class="table-info">{{ diario.fecha_reg }}</td>
+                        <td class="table-info">{{ diario.golpesTotales }}</td>
+                        <td class="table-info">{{ diario.maquina }}</td>
+                        <td class="table-info">{{ diario.totalmant }}</td>
+                    </tr>
+                    {% endfor %}
+            </table>
+        </div>
+     
+{% endblock %}
