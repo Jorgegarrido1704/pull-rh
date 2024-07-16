@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pullTest',
     'login',
-     'rh',
+    'rh',
+    'herramental', 
     'bootstrap5',
     'whitenoise',
 ]

@@ -1,0 +1,28 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %}{{title}}{% endblock  %} </title>
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <link rel="stylesheet" href="{% static 'herr_stilos.css' %}">
+    </head>
+    <body>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{'/herramental'}}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{'/herramental/diarios'}}">Tabla Golpes Diarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{user}}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">Logout</a>
+            </li>
+          </ul>
+      
+       {% block content %} {% endblock  %} 
+    </body>
+</html>    
