@@ -24,7 +24,7 @@ def index(request):
     if user is not None and user.is_authenticated: 
         template = 'herramental/index_herr.html'
         today = dt.date.today().strftime('%d-%m-%Y')
-        Gdiarios=Golpes_diarios.objects.all().values().order_by('-id').filter(fecha_reg=today)
+        Gdiarios=Golpes_diarios.objects.all().values().order_by('-id').filter(fecha_reg__contains=today)
         preventiva = Herramental.objects.all().values().order_by('-id').filter(mantenimiento='falta')
         context = {
             'title': 'Home',
