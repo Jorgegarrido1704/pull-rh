@@ -43,7 +43,7 @@ class RegistroTest(forms.ModelForm):
     (20, '20'),
     (22, '22'),
 ]
-    cliente = forms.ChoiceField(choices=CLIENTE_CHOICES, widget=forms.Select(attrs={'class': 'form-select','required': 'required'}))
+    Cliente = forms.ChoiceField(choices=CLIENTE_CHOICES, widget=forms.Select(attrs={'class': 'form-select','required': 'required'}))
     calibre = forms.ChoiceField(choices=CALIBRE_CHOICES, widget=forms.Select(attrs={'class': 'form-control','required': 'required'}))
     forma = forms.ChoiceField(choices=FORMA_CHOICES, widget=forms.Select(attrs={'class': 'form-select','required': 'required'}))
     Num_part = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','required': 'required'}))
@@ -54,7 +54,7 @@ class RegistroTest(forms.ModelForm):
 
     class Meta:
         model = PullTest
-        fields = ['cliente', 'Num_part', 'calibre','wo', 'cont', 'forma', 'presion', 'quien']
+        fields = ['Cliente', 'Num_part', 'calibre','wo', 'cont', 'forma', 'presion', 'quien']
         labels = {
             'Num_part': 'Numero de parte',
             'wo': 'Work Order',

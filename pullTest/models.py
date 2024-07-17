@@ -2,9 +2,9 @@ from django.db import models
 
 # Create your models here.
 class PullTest(models.Model):
-    fecha = models.DateField(auto_now_add=True)
+    fecha = models.CharField(max_length=30)
     calibre  = models.IntegerField(default=0)
-    cliente = models.CharField(max_length=80)
+    Cliente = models.CharField(max_length=80)
     Num_part = models.CharField(max_length=50)
     wo = models.CharField(max_length=6)
     presion = models.FloatField(default=0.00)
@@ -15,7 +15,7 @@ class PullTest(models.Model):
     tipo = models.CharField(max_length=4,default=" ") 
     
     class Meta:
-        db_table = "pulltest"
+        db_table = "registro_pull"
 
     def __str__(self):
         return self.Num_part

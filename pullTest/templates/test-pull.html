@@ -10,8 +10,8 @@ Registros de prubas de pull
     {% csrf_token %}
     
     <div class="col-md-6">
-        <label for="{{ form.cliente.id_for_label }}" class="form-label">{{ form.cliente.label }}</label>
-        {{ form.cliente }}
+        <label for="{{ form.cliente.id_for_label }}" class="form-label">{{ form.Cliente.label }}</label>
+        {{ form.Cliente }}
     </div>
     <div class="col-md-6">
         <label for="{{ form.Num_part.id_for_label }}" class="form-label">Numero de Parte</label>
@@ -66,7 +66,7 @@ Registros de prubas de pull
     <tbody>
         {% for reg in registros %}
         <tr>
-            <td>{{ reg.cliente }}</td>
+            <td>{{ reg.Cliente }}</td>
             <td>{{ reg.Num_part }}</td>
             <td>{{ reg.wo }}</td>
             <td>{{ reg.calibre }}</td>

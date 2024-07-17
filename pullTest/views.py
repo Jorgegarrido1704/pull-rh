@@ -26,9 +26,11 @@ def test(request):
     user=request.user
     if user is not None and user.is_authenticated: 
         if request.method == 'POST':
+            today = datetime.today().strftime('%d-%m-%Y')
             form = RegistroTest(request.POST)
             if form.is_valid():
                 term=form.cleaned_data['cont'].upper()
+                form.instance.fecha=today
                 form.instance.cont=term
                 form.instance.val=user
                 if((form.cleaned_data['calibre'] == '6' and (form.cleaned_data['presion']>=225) and (term!="MT1-54" or term!="MT1-54"  )) or
@@ -79,12 +81,11 @@ def graficas(request):
     data = {}
     fech = {}
     
-    moth = datetime.now()
-    
+    moth = '-' + datetime.now().strftime('%m')+'-'
 
     for calibre in calibres:
         # Filtrar datos para el calibre actual
-        datos = PullTest.objects.filter(calibre=calibre, fecha__month=moth.month,tipo="OK").values_list('presion', flat=True)
+        datos = PullTest.objects.filter(calibre=calibre,fecha__contains=moth, tipo="OK").values_list('presion', flat=True)
 
         
             # Convertir a lista de valores
