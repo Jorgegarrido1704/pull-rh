@@ -5,19 +5,31 @@
 <div class="container">
     <div class="row">
         <!-- Primera columna -->
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-6">
+            <div class="card mb-6">
                 <div class="card-header">
-                    <h5 class="card-title">Golpes Diarios</h5>
+                    <h5 class="card-title">Registro de Golpes</h5>
                 </div>
-                <div class="card-body" >
-                    <p class="card-text">Descripción del contenido 1</p>
-                    <p class="card-text">Descripción del contenido 1</p>
-                    <p class="card-text">Descripción del contenido 1</p>
-                    <p class="card-text">Descripción del contenido 1</p>
-                    <p class="card-text">Descripción del contenido 1</p>
-
-                    <p class="card-text">Descripción del contenido 1</p>
+                <div class="card-body"  >
+                    <form class="row g-6"  method="POST" >
+                        {% csrf_token %}
+                        <div class="col-9">
+                            <label for="{{ form.herramental.id_for_label }}" class="form-label">Herramental</label>
+                            {{ form.herramental }}
+                        </div>
+                        <div class="col-9">
+                            <label for="{{ form.terminal.id_for_label }}" class="form-label">Terminal Aplicada</label>
+                            {{ form.terminal }}
+                        </div>
+                        <div class="col-9">
+                            <label for="{{ form.golpesDiarios.id_for_label }}" class="form-label">Cantidad de golpes</label>
+                            {{ form.golpesDiarios }}
+                        </div>
+                  
+                        <div class="col-6" align="center" id="boton-goles">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="card mb-4">
@@ -30,13 +42,31 @@
             </div>
         </div>
         <!-- Segunda columna -->
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-6">
+            <div class="card mb-6">
                 <div class="card-header">
                     <h5 class="card-title">Golpes Diarios</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Descripción del contenido 3</p>
+                    <div class="table-responsive">
+                        <table class="table table-success table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Herramental</th>
+                                    <th>Terminal</th>
+                                    <th>Golpes Diarios</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for diario in golpes %}
+                                <tr>
+                                    <td class="table-info">{{ diario.herramental }}</td>
+                                    <td class="table-info">{{ diario.terminal }}</td>
+                                    <td class="table-info">{{ diario.golpesDiarios }}</td>
+                                </tr>
+                                {% endfor %}
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="card mb-4">
@@ -44,13 +74,32 @@
                     <h5 class="card-title">Golpes Diarios</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Descripción del contenido 4</p>
+                    <div class="table-responsive">
+                        <table class="table table-success table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Herramental</th>
+                                    <th>Terminal</th>
+                                    <th>Numero de mantenimiento</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for diario in preventiva %}
+                                <tr>
+                                    <td class="table-info">{{ diario.herramental }}</td>
+                                    <td class="table-info">{{ diario.terminal }}</td>
+                                    <td class="table-info">{{ diario.totalmant }}</td>
+                                </tr>
+                                {% endfor %}
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- Tercera columna -->
-        <div class="col-md-4">
-            <div class="card mb-4">
+        <div class="col-md-6">
+            <div class="card mb-6">
                 <div class="card-header">
                     <h5 class="card-title">Golpes Diarios</h5>
                 </div>

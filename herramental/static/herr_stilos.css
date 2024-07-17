@@ -25,3 +25,9 @@
     max-height: 400px;
     overflow-y: scroll;
  } 
+#boton-goles{
+    margin-top: 30px;
+}
+table,th,td{
+  text-align: center;  
+}
