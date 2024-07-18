@@ -47,3 +47,19 @@ class Paros(models.Model):
         
     def __str__(self):
         return self.equipo    
+    
+class new_mant(models.Model):
+    fecha_reg = models.CharField(max_length=30)
+    tiempos = models.CharField(max_length=30)
+    herramental = models.CharField(max_length=30)
+    terminal = models.CharField(max_length=30)
+    Minutos = models.IntegerField(default=0)
+    quien = models.CharField(max_length=80)
+    docMant = models.CharField(max_length=800)
+    
+    class Meta:
+        db_table = "mant_herramental"        
+    def __str__(self):
+        return self.herramental
+    
+        

@@ -1,6 +1,6 @@
 # myapp/forms.py
 from django import forms
-from .models import Herramental,Golpes_diarios,Paros
+from .models import Herramental,Golpes_diarios,Paros,new_mant
 
 class RegistroHerramental(forms.ModelForm):
     
@@ -59,4 +59,34 @@ class Paros_reg(forms.Form):
     atiende = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control' ,'required': 'required'}))
     class Meta:
         model = Paros
-        fields = ['fecha','nombreEquipo','dano','quien','atiende']           
+        fields = ['fecha','nombreEquipo','dano','quien','atiende']     
+        
+class new_mante(forms.ModelForm):
+    CHOICE_QUIEN = [
+    ('', ''),
+    ('Angel Gonzalez', 'Angel Gonzalez'),
+    ('Alejandro Moreno', 'Alejandro Moreno'),
+    ('Jonathan Falcon', 'Jonathan Falcon'),   
+]       
+    herr=Herramental.objects.filter(mantenimiento='falta').values('herramental','terminal')
+    CHOICE_HERR = [
+    ('', ''),
+    ]
+    for item in herr:
+        herra = item['herramental']+'/'+item['terminal']
+        CHOICE_HERR.append((herra, herra))
+            
+    herramental = forms.ChoiceField(choices=CHOICE_HERR, widget=forms.Select(attrs={'class': 'form-select', 'required': 'required', 'id': 'herramental-select'}))
+    Minutos = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control','required': 'required', 'placeholder': '0'}))
+    quien = forms.ChoiceField(choices=CHOICE_QUIEN, widget=forms.Select(attrs={'class': 'form-select','required': 'required'}))
+    docMant = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control','required': 'required'}))
+    class Meta:
+        model = new_mant
+        fields = ['herramental','Minutos','quien','docMant']
+        labels = {
+            'herramental': 'Herramiental',
+            'terminal': 'Terminal',
+            'Minutos': 'Minutos',
+            'quien': 'Quien solicita',
+            'docMant': 'Motivo del mantenimiento',
+        }
