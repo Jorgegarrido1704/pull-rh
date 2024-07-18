@@ -61,7 +61,7 @@ def index(request):
                         buscar.golpesTotales += golpesDiarios
 
                     buscar.maquina = 'maquina'
-                    if (buscar.golpesTotales / 5000) >= buscar.totalmant:
+                    if (int(buscar.golpesTotales / 5000)>=1) and int(buscar.golpesTotales / 5000) > buscar.totalmant:
                         buscar.totalmant = int(buscar.golpesTotales / 5000)
                         buscar.mantenimiento = 'falta1'
                     else:
