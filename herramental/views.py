@@ -52,7 +52,7 @@ def index(request):
                 buscar = Herramental.objects.filter(terminal=terminal, herramental=herramental).first()
                 
                 if buscar:
-                    if today == buscar.fecha_reg.strftime('%d-%m-%Y'):
+                    if today == buscar.fecha_reg[:10]:
                         buscar.golpesDiarios += golpesDiarios
                         buscar.golpesTotales += golpesDiarios
                     else:
