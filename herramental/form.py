@@ -1,6 +1,6 @@
 # myapp/forms.py
 from django import forms
-from .models import Herramental,Golpes_diarios
+from .models import Herramental,Golpes_diarios,Paros
 
 class RegistroHerramental(forms.ModelForm):
     
@@ -39,3 +39,24 @@ class RegistroGolpes(forms.ModelForm):
             'fecha_reg': 'Fecha de Registro',
             'golpesDiarios': 'Golpes Diarios',
         }
+class NewHerramental(forms.ModelForm):
+    herramental = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','required': 'required'}))
+    terminal = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','required': 'required'}))
+    class Meta:
+        model = Herramental
+        fields = ['herramental', 'terminal']
+        labels = {
+            'herramental': 'Herramiental',
+            'terminal': 'Terminal',
+            
+            
+        }        
+class Paros_reg(forms.Form):
+    fecha = forms.CharField(widget=forms.HiddenInput())
+    herra = forms.CharField(widget=forms.HiddenInput())
+    dano = forms.CharField(widget=forms.HiddenInput())
+    quien = forms.CharField(widget=forms.HiddenInput())
+    atiende = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control' ,'required': 'required'}))
+    class Meta:
+        model = Paros
+        fields = ['fecha','nombreEquipo','dano','quien','atiende']           

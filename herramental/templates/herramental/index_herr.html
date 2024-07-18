@@ -1,47 +1,33 @@
 {% extends "herramental/master_herr.html" %}
 {% block content %}
-
 <div class="container">
     <div class="row">
         <!-- Primera columna -->
         <div class="col-md-6">
-            <div class="card mb-6">
+    
+            <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="card-title">Registro de Golpes</h5>
+                    <h5 class="card-title">Registro Nuevo Herramental {{ error }}</h5>
                 </div>
-                <div class="card-body"  >
-                    <form class="row g-6"  method="POST" >
+                <div class="card-body">
+                    <form class="row g-6"  action="{% url 'index' %}" method="POST" >
                         {% csrf_token %}
                         <div class="col-9">
-                            <label for="{{ form.herramental.id_for_label }}" class="form-label">Herramental</label>
-                            {{ form.herramental }}
+                            <label for="{{ NewHer.herramental.id_for_label }}" class="form-label">Herramental</label>
+                            {{ NewHer.herramental }}
                         </div>
                         <div class="col-9">
-                            <label for="{{ form.terminal.id_for_label }}" class="form-label">Terminal Aplicada</label>
-                            {{ form.terminal }}
+                            <label for="{{ NewHer.terminal.id_for_label }}" class="form-label">Terminal que se usara</label>
+                            {{ NewHer.terminal }}
                         </div>
-                        <div class="col-9">
-                            <label for="{{ form.golpesDiarios.id_for_label }}" class="form-label">Cantidad de golpes</label>
-                            {{ form.golpesDiarios }}
-                        </div>
-                  
+                       
                         <div class="col-6" align="center" id="boton-goles">
                             <button type="submit" class="btn btn-primary">Registrar</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title">Golpes Diarios</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Descripción del contenido 2</p>
-                </div>
-            </div>
-        </div>
-        <!-- Segunda columna -->
-        <div class="col-md-6">
+            
             <div class="card mb-6">
                 <div class="card-header">
                     <h5 class="card-title">Golpes Diarios</h5>
@@ -68,9 +54,37 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- Segunda columna -->
+        <div class="col-md-6">
             <div class="card mb-6">
                 <div class="card-header">
-                    <h5 class="card-title">Golpes Diarios</h5>
+                    <h5 class="card-title">Registro de Golpes</h5>
+                </div>
+                <div class="card-body"  >
+                    <form class="row g-6" action="{% url 'index' %}" method="POST" >
+                        {% csrf_token %}
+                        <div class="col-9">
+                            <label for="{{ form.herramental.id_for_label }}" class="form-label">Herramental</label>
+                            {{ form.herramental }}
+                        </div>
+                        <div class="col-9">
+                            <label for="{{ form.terminal.id_for_label }}" class="form-label">Terminal Aplicada</label>
+                            {{ form.terminal }}
+                        </div>
+                        <div class="col-9">
+                            <label for="{{ form.golpesDiarios.id_for_label }}" class="form-label">Cantidad de golpes</label>
+                            {{ form.golpesDiarios }}
+                        </div>
+                        <div class="col-6" align="center" id="boton-goles">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h5 class="card-title">Mantenimientos pendientes</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -100,10 +114,46 @@
         <div class="col-md-6">
             <div class="card mb-6">
                 <div class="card-header">
-                    <h5 class="card-title">Golpes Diarios</h5>
+                    <h5 class="card-title">Requerimientos de Herramental</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Descripción del contenido 5</p>
+                    <div class="table-responsive">
+                        <table class="table table-success table-striped">
+                        <thead>
+                            <th>Fecha de solicitud</th>
+                            <th>Herramental</th>
+                            <th>Trabajo</th>
+                            <th>Quien solicita</th>
+                            <th>Quien atiende</th>
+                            <th>mantenimiento</th>
+                        </thead>
+                        <tbody>
+                            {% for paro in paros %}
+                            {% if paro.atiende == '' %}
+                                   <tr class="table-danger">   
+                            {% else %}
+                                   <tr class="table-warning">
+                            {% endif %}                 
+                                        <td > {{ paro.fecha }} </td>
+                                        <td > {{ paro.nombreEquipo }} </td>    
+                                        <td > {{ paro.dano }} </td>
+                                        <td > {{ paro.quien }} </td>
+                                        <td > {{ paro.atiende }} </td>
+                                       <td> <form method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="fecha" value="{{ paro.fecha }}">
+                                            <input type="hidden" name="herra" value="{{ paro.nombreEquipo }}">
+                                            <input type="hidden" name="dano" value="{{ paro.dano }}">
+                                            <input type="hidden" name="quien" value="{{ paro.quien }}">
+                                            <input type="text" name="atiende" style="max-width: 80px; margin: 2px"  required>
+                                            <button type="submit" class="btn btn-primary">Registro</button>
+                                        </form></td>
+                                   
+                                </tr>
+                            {% endfor %}
+                           
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="card mb-6">
@@ -121,7 +171,7 @@
                     <h5 class="card-title">Golpes Diarios</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Descripción del contenido 5</p>
+                    <p class="card-text">Descripción del contenido 7</p>
                 </div>
             </div>
             <div class="card mb-6">
@@ -129,12 +179,17 @@
                     <h5 class="card-title">Golpes Diarios</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Descripción del contenido 6</p>
+                    <p class="card-text">Descripción del contenido 8</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+{% if error %}
+<script>
+alert("{{ error }}");
+</script>
+{% endif %}
 
 {% endblock  %}
