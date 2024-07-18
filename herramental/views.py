@@ -64,8 +64,7 @@ def index(request):
                     if (int(buscar.golpesTotales / 5000)>=1) and int(buscar.golpesTotales / 5000) > buscar.totalmant:
                         buscar.totalmant = int(buscar.golpesTotales / 5000)
                         buscar.mantenimiento = 'falta1'
-                    else:
-                        buscar.mantenimiento = 'ok'
+                    
 
                     buscar.save()
                     new_golpes = Golpes_diarios(
