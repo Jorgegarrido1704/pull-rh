@@ -129,7 +129,7 @@ def index(request):
                 atiende = paro.cleaned_data['atiende']
                 buscarParos= Paros.objects.filter(fecha=fecha, nombreEquipo=herra, dano=dano, quien=quien).first()
                 if  buscarParos:
-                    if buscarParos.atiende == '':
+                    if buscarParos.atiende == 'Nadie aun':
                         buscarParos.atiende = atiende
                         buscarParos.inimant = ahora
                     else:
