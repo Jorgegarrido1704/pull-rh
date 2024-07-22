@@ -4,7 +4,7 @@ from django.template import loader
 from .models import Herramental,Golpes_diarios,Paros,new_mant
 from datetime import date,timedelta,datetime
 from django.template.loader import render_to_string
-from .form import RegistroHerramental,RegistroGolpes,NewHerramental,Paros_reg,new_mante
+from .form import RegistroHerramental,RegistroGolpes,NewHerramental,Paros_reg,new_mante,addMant
 from django.contrib.auth import logout
 import datetime as dt
 
@@ -205,11 +205,39 @@ def logout_view(request):
     logout(request)
     return redirect('/')       
 
-def new_mant(request):
-    template = loader.get_template('herramental/new_mant.html')
+def new_manten(request):
+    template = loader.get_template('herramental/new_manten.html')
     newMant=new_mante(request.POST)
     context = {
         'title': 'Registrar Mantenimiento',
+        'newMant':newMant
+        
+    }   
+    if request.method == 'POST':
+        if newMant.is_valid():
+            newMant.instance.fecha_reg = dt.date.today().strftime('%d-%m-%Y')
+            newMant.instance.tiempos = dt.datetime.now().strftime('%H:%M')   
+            herr=newMant.cleaned_data['herramental']
+            herr=str.split(herr, '/')
+            newMant.instance.herramental=herr[0]
+            newMant.instance.terminal=herr[1]
+            newMant.save()
+            buscarMant=Herramental.objects.filter(herramental=herr[0], terminal=herr[1]).first()
+            if buscarMant:
+                buscarMant.mantenimiento = 'ok'
+                buscarMant.save()
+            
+            return redirect('/herramental')
+        else:
+            context['error'] = 'Error al registrar mantenimiento' 
+            
+    return HttpResponse(template.render(context, request))  
+
+def add_mant(request):
+    template = loader.get_template('herramental/add_mant.html')
+    newMant=addMant(request.POST)
+    context = {
+        'title': 'Agregar Mantenimiento',
         'newMant':newMant
         
     }   

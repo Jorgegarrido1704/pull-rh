@@ -1,0 +1,41 @@
+{%extends 'herramental/master_herr.html'%}
+
+{% block content %}     
+ 
+<div class="card mb-12">
+    <div class="card-header">
+        <h5 class="card-title">Registro mantenimiento herramental {{ error }}</h5>
+    </div>
+    <div class="card-body1">
+        <form class="row g-12"  action="{% url 'add_mant' %}" method="POST" >
+            {% csrf_token %}
+            <div class="col-12">
+                <label for="{{ newMant.herramental.id_for_label }}" class="form-label">Herramental / Terminal</label>
+                {{ newMant.herramental }}
+            </div>
+            <div class="col-12">
+                <label for="{{ newMant.Minutos.id_for_label }}" class="form-label">Minutos de mantenimiento</label>
+                {{ newMant.Minutos }}
+            </div>
+            <div class="col-12">
+                <label for="{{ newMant.quien.id_for_label }}" class="form-label">Quien realiza el mantenimiento</label>
+                {{ newMant.quien }}
+            </div>  <div class="col-12">
+                <label for="{{ newMant.docMant.id_for_label }}" class="form-label">Descripción del mantenimiento</label>
+                {{ newMant.docMant }}
+            </div>
+           
+            <div class="col-12" align="center" id="boton-goles">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+{% if error %}
+<script>
+alert("{{ error }}");
+</script>
+{% endif %}
+     
+{% endblock %}
