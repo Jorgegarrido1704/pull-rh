@@ -253,6 +253,7 @@ def add_mant(request):
             newMant.save()
             buscarMant=Herramental.objects.filter(herramental=herr[0], terminal=herr[1]).first()
             if buscarMant:
+                buscarMant.fecha_reg = dt.date.today().strftime('%d-%m-%Y')
                 buscarMant.mantenimiento = 'ok'
                 buscarMant.save()
             
