@@ -74,8 +74,8 @@ class new_mante(forms.ModelForm):
     ]
     for item in herr:
         herra = item['herramental']+'/'+item['terminal']
-        CHOICE_HERR.append((herra, herra))
-            
+        CHOICE_HERR.append((herra, herra),)
+         
     herramental = forms.ChoiceField(choices=CHOICE_HERR, widget=forms.Select(attrs={'class': 'form-select', 'required': 'required', 'id': 'herramental-select'}))
     Minutos = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control','required': 'required', 'placeholder': '0'}))
     quien = forms.ChoiceField(choices=CHOICE_QUIEN, widget=forms.Select(attrs={'class': 'form-select','required': 'required'}))
