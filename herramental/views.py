@@ -262,3 +262,14 @@ def add_mant(request):
             context['error'] = 'Error al registrar mantenimiento' 
             
     return HttpResponse(template.render(context, request))  
+
+def man_real(request):
+    template = loader.get_template('herramental/man_real.html')
+    datos=new_mant.objects.all().values().order_by('-id')
+    
+    context = {
+        'title': 'Mantenimientos',
+        'datos': datos
+        
+    }   
+    return HttpResponse(template.render(context, request))
