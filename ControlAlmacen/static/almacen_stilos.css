@@ -1,0 +1,20 @@
+body{
+    background-color: rgb(102, 241, 211);
+    font-family: verdana;
+    margin: 0;
+
+}
+#cvts{
+    font-style: bold;
+    font-size: xx-large;
+    color: rgb(250, 53, 53);
+}
+#jorge{
+    color: rgb(1, 5, 119);
+    font-size: x-large;
+}
+.encabezado{
+    padding: 10px;
+    text-align: right;
+
+}

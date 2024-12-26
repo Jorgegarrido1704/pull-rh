@@ -1,11 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control Almacen</title>
-</head>
-<body>
-    <h1>Control Almacen</h1>
-</body>
-</html>
+{% extends "almacen/master_alma.html" %}
+{% block title %}Principal{% endblock  %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <!--Ultimos movimientos  -->
+        <div class="col-md-6">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h5 class="card-title">Ultimos movimientos</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text"> </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registro pendientes -->
+        <div class="col-md-6">
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h5 class="card-title">Registro pendientes</h5>
+                </div>
+                <div class="card-body" > 
+                    <p class="card-text">Lineas pendientes </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}
