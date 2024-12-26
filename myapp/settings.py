@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'herramental', 
     'bootstrap5',
     'whitenoise',
+    'ControlAlmacen',
 ]
 
 MIDDLEWARE = [

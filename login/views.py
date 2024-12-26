@@ -16,6 +16,8 @@ def user_login(request):
                 return redirect('rh/')
             if user.groups.filter(name='herramental').exists():
                 return redirect('herramental/')
+            if user.groups.filter(name='almacen').exists():
+                return redirect('controlAlmacen/')
             else:    
                 return redirect('pull/')  
         else:
