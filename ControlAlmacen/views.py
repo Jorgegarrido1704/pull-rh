@@ -16,4 +16,10 @@ def indexAlm(request):
     else:
         return redirect('/')
 
+def registroimpo(request):
+    user=request.user
     
+    if user is not None and user.is_authenticated:
+        return render(request, 'almacen/registro_importacion.html')
+    else:
+        return redirect('/')
