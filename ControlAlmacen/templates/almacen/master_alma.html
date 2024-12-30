@@ -23,13 +23,6 @@
             Home</a>
           </li>
           {% if user.username == 'almaCali' %}
-          <li class="nav-item">
-            <a class="nav-link" href="/controlAlmacen/registro_importacion">
-              <span data-feather="file"></span>
-              Registro de Importacion</a>
-          </li>
-          {% endif %}
-          {% if user.username == 'almaCali' %}
             <li class="nav-item">
                 <a class="nav-link" href="/controlAlmacen/registro_entrada_calidad">
                 <span data-feather="file"></span>
@@ -37,7 +30,7 @@
             </li>
             {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/controlAlmacen/registro_importacion">
               <span data-feather="file"></span>
               Registro de entrada de productos</a>
           </li>

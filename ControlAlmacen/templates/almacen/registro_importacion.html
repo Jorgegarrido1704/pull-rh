@@ -12,26 +12,12 @@
                 <div class="card-body" > 
                         <form class="was-validated" action="{% url 'registro_importacion' %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="dateField" class="form-label">Importation date</label>
-                                <input type="date" class="form-control is-invalid" id="dateField"  required></textarea>
-                                <div class="invalid-feedback">
-                                  Please enter a specific date.
-                                </div>
-                              </div>
-                            <div class="mb-3">
-                              <label for="notesForexportation" class="form-label">Notes</label>
-                              <textarea class="form-control is-invalid" id="notesForexportation" placeholder="Add any additional notes" required></textarea>
-                              <div class="invalid-feedback">
-                                Please enter a message if it is required.
-                              </div>
-                            </div>
-                          
-                            <div class="mb-3">
-                              <input type="file" class="form-control" aria-label="file example" accept=".csv"  required>
-                              <div class="invalid-feedback">Example invalid form file feedback</div>
-                            </div>
-                          
+                            <div class="row">
+                              <div class="col-md-6 mb-3">
+                                <label for="archivo">Altam importaciones</label>
+                                <input type="file" class="form-control" id="archivo" name="archivo" accept=".xlsx, .xls" required >
+                          </div>
+                          <div id="excelPreview" class="mt-3"></div>
                             <div class="mb-3">
                               <button class="btn btn-primary" type="submit" >Submit form</button>
                             </div>
@@ -41,5 +27,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock  %}
