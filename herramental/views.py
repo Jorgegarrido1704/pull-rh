@@ -21,7 +21,7 @@ def diarios(request):
 
 
 
-def index(request):
+def indexher(request):
     user = request.user
     if user is not None and user.is_authenticated:
         template = 'herramental/index_herr.html'
@@ -94,7 +94,7 @@ def index(request):
                     )
                     new_golpes.save()
                 
-                return redirect('/herramental')
+                return redirect('/herramental/')
             else:
                 context['form'] = form
             
@@ -134,7 +134,7 @@ def index(request):
                     else:
                         buscarParos.finhora = ahora
                     buscarParos.save()
-                    redirect('/herramental')     
+                    redirect('/herramental/')     
             else:
                 context['Paros_reg'] = paro       
                         

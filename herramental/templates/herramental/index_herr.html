@@ -87,7 +87,7 @@
                     <h5 class="card-title">Registro de Golpes</h5>
                 </div>
                 <div class="card-body"  >
-                    <form class="row g-6" action="{% url 'index' %}" method="POST" >
+                    <form class="row g-6" action="{% url 'indexher' %}" method="POST" >
                         {% csrf_token %}
                         <div class="col-9">
                             <label for="{{ form.herramental.id_for_label }}" class="form-label">Herramental</label>
@@ -142,7 +142,7 @@
                     <h5 class="card-title">Registro Nuevo Herramental {{ error }}</h5>
                 </div>
                 <div class="card-body">
-                    <form class="row g-6"  action="{% url 'index' %}" method="POST" >
+                    <form class="row g-6"  action="{% url 'indexher' %}" method="POST" >
                         {% csrf_token %}
                         <div class="col-9">
                             <label for="{{ NewHer.herramental.id_for_label }}" class="form-label">Herramental</label>
