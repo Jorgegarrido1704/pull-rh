@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import ControlAlmacen,RegistroImpo
 from django.template.loader import render_to_string
-from datetime import date
+from datetime import date,timedelta,datetime
 from django.contrib import messages
 import openpyxl
 
@@ -13,9 +13,20 @@ def indexAlm(request):
     user=request.user
     
     if user is not None and user.is_authenticated:
-        return render(request, 'almacen/index.html')
+        datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').distinct()
+        
+        template = loader.get_template('almacen/index.html')
+        context = {
+            'datos': datos,
+            
+        }
+        return render(request,'almacen/index.html', context)
+
     else:
         return redirect('/')
+
+
+
 
 def registroimpo(request):
     user = request.user
@@ -23,34 +34,54 @@ def registroimpo(request):
         if request.method == 'POST':
             archivo = request.FILES.get('archivo')
 
+            # Check if a file was uploaded
             if not archivo:
                 messages.error(request, "No se seleccionó ningún archivo.")
                 return redirect('almacen/registro_importacion.html')
 
             try:
+                # Load the Excel file
                 workbook = openpyxl.load_workbook(archivo)
+                print(f"Archivo recibido: {archivo.name}")
 
-                # Seleccionar la hoja llamada "FACTURA"
+                # Select the sheet named "FACTURA"
                 if "FACTURA" in workbook.sheetnames:
                     sheet = workbook["FACTURA"]
                 else:
                     messages.error(request, "El archivo no contiene una hoja llamada 'FACTURA'.")
                     return redirect('almacen/registro_importacion.html')
 
-                # Leer las celdas específicas
+                # Read specific cells
                 invoce = sheet['F4'].value
                 dateinvoce = sheet['F5'].value
 
-                # Iterar desde la fila 19 hacia abajo
-                for row in sheet.iter_rows(min_row=19):
-                    b, c, f, g, p, q, r = (row[1].value, row[2].value, row[5].value, row[6].value,
-                                           row[15].value, row[16].value, row[17].value)
+                # Convert date if needed
+                if isinstance(dateinvoce, str):
+                    try:
+                        dateinvoce = datetime.strptime(dateinvoce, "%Y-%m-%d").date()
+                    except ValueError:
+                        messages.error(request, "El formato de la fecha en la celda F5 no es válido.")
+                        return redirect('almacen/registro_importacion.html')
 
-                    # Si la celda B está vacía, detener
+                print(f"Invoice: {invoce}, Date: {dateinvoce}")
+
+                # Iterate through rows starting from row 19
+                for row in sheet.iter_rows(min_row=19,max_row=518, min_col=1, max_col=18,):
+                    b = row[1].value  # mfcExterno
+                    c = row[2].value  # mfcInterno
+                    f = row[5].value  # qty
+                    g = row[6].value  # UnitPrice
+                    p = row[15].value  # supplier
+                    q = row[16].value  # poImpo
+                    r = row[17].value  # PrevioNum
+
+                    # If the cell in column B is empty, stop processing
                     if not b:
                         break
 
-                    # Guardar en el modelo
+                    print(f"Processing row: {b}, {c}, {f}, {g}, {p}, {q}, {r}")
+
+                    # Create a new RegistroImpo entry
                     RegistroImpo.objects.create(
                         fechaDeMovimiento=date.today(),
                         invoiceNum=invoce,
@@ -60,18 +91,20 @@ def registroimpo(request):
                         qty=f,
                         UnitPrice=g,
                         supplier=p,
-                        poImpo=q,
-                        PrevioNum=r,
+                        PoImpo=q,
+                        previoNum=r,
                         UserImpoCharge=user
                     )
-                    RegistroImpo.save()
 
                 messages.success(request, "Datos importados exitosamente.")
-                return redirect('almacen/registro_importacion.html')
+                return redirect()
 
             except Exception as e:
+                # Log and display the error
+                print(f"Error al procesar el archivo: {e}")
                 messages.error(request, f"Error al procesar el archivo: {e}")
                 return redirect('almacen/registro_importacion.html')
+
         return render(request, 'almacen/registro_importacion.html')
     else:
-        return redirect('/')
+        return redirect('almacen/index.html')

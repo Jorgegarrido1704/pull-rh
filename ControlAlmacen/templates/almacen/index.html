@@ -20,10 +20,14 @@
         <div class="col-md-6">
             <div class="card mb-6">
                 <div class="card-header">
-                    <h5 class="card-title">Registro pendientes</h5>
+                    <h5 class="card-title">Importaciones Registradas </h5>
                 </div>
                 <div class="card-body" > 
-                    <p class="card-text">Lineas pendientes </p>
+                   {% for dato in datos %}
+                    <p class="card-text"> {{dato.invoiceNum}} </p>
+
+                    {% endfor %}
+                    
                 </div>
             </div>
         </div>
