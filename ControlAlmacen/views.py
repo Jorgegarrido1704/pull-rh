@@ -18,6 +18,7 @@ def indexAlm(request):
         template = loader.get_template('almacen/index.html')
         context = {
             'datos': datos,
+            'user': user,
             
         }
         return render(request,'almacen/index.html', context)

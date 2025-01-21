@@ -28,23 +28,19 @@
                 <span data-feather="file"></span>
                 Registro de entrada de productos calidad</a>
             </li>
-            {% else %}
+            {% elif user.username == 'comercio' %}
           <li class="nav-item">
             <a class="nav-link" href="/controlAlmacen/registro_importacion">
               <span data-feather="file"></span>
               Registro de entrada de productos</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/controlAlmacen/registro_entrada_calidad">
+            <span data-feather="file"></span>
+            Registro de entrada de productos</a>
+        </li>          
             {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
-              Informacion de Herramentales</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="shopping-cart"></span>
-              Mantenimientos</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="/">Cerrar sesion</a>
               <span data-feather="bar-chart-2"></span>

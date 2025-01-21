@@ -1,6 +1,35 @@
 {% extends "almacen/master_alma.html" %}
 {% block title %}Registro Calidad{% endblock  %}
 {% block content %}
+    {%if datos=='' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card mb-10">
+                    <div class="card-header">
+                        <h5 class="card-title">Selecciona importacion a registrar</h5>
+                    </div>
+                    <div class="card-body">
+                        
+                    </div>
+                </div>
+        </div>
+    </div>
+    {%else %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="card mb-10">
+                    <div class="card-header">
+                        <h5 class="card-title">Seleccion registro a revisar</h5>
+                    </div>
+                    <div class="card-body">
+                        
+                    </div>
+                </div>
+        </div>
+    </div>
 
+    {%endif%}
 
 {% endblock  %}
