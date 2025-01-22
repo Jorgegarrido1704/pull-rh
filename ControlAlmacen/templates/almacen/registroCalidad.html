@@ -10,7 +10,17 @@
                         <h5 class="card-title">Selecciona importacion a registrar</h5>
                     </div>
                     <div class="card-body">
-                        
+                        <form class="row g-10" method='POST' action='#'>
+                              <select class='form-control'>
+                                {%if impo!="" %}
+                                 {%for imp in impo%}
+                                 <option value='{% imp %}'>{% imp %}</option>
+                                 {%{% endfor %}%}
+                                {%else%}
+                                    <option value=''>No hay registros</option>
+                                {%endif%}   
+                              </select>  
+                        </form>
                     </div>
                 </div>
         </div>
