@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from .models import ControlAlmacen,RegistroImpo
 from django.template.loader import render_to_string
@@ -116,3 +116,21 @@ def registroimpo(request):
         return render(request, 'almacen/registro_importacion.html')
     else:
         return redirect('/almacen/index.html')
+
+def registrosRecords(request):
+    user = request.user   
+    if user is not None and user.is_authenticated:
+        template = loader.get_template('almacen/registroCalidad.html') 
+        datosimpo = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').distinct()
+        context = {
+            'datosimpo': datosimpo,
+        }
+        
+        return HttpResponse(template.render(context, request))
+        
+
+def cambios(request):
+    
+    datoRecibido = request.GET.get('impo')
+    datosImpo = RegistroImpo.objects.filter(invoiceNum='datoRecibido').values()
+    return JsonResponse({'status': 'ok','datosImpo': list(datosImpo)})

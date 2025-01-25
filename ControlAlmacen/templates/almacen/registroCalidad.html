@@ -1,45 +1,45 @@
 {% extends "almacen/master_alma.html" %}
 {% block title %}Registro Calidad{% endblock  %}
 {% block content %}
-    {%if datos=='' %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="card mb-10">
-                    <div class="card-header">
-                        <h5 class="card-title">Selecciona importacion a registrar</h5>
-                    </div>
-                    <div class="card-body">
-                        <form class="row g-10" method='POST' action='#'>
-                              <select class='form-control'>
-                                {%if impo!="" %}
-                                 {%for imp in impo%}
-                                 <option value='{% imp %}'>{% imp %}</option>
-                                 {%{% endfor %}%}
-                                {%else%}
-                                    <option value=''>No hay registros</option>
-                                {%endif%}   
-                              </select>  
-                        </form>
-                    </div>
+    
+<div class="container">
+    <div class="row">
+        <!-- Primer bloque: Selección de importación -->
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Selecciona importación a registrar</h5>
                 </div>
+                <div class="card-body">
+                    <form class="row g-3" method="POST" action="#">
+                        <select class="form-control" name="impo">
+                            {% if datosimpo %}
+                                {% for imp in datosimpo %}
+                                    <option value="{{ imp.invoiceNum }}">{{ imp.invoiceNum }}</option>
+                                {% endfor %}
+                            {% else %}
+                                <option value="">No hay registros</option>
+                            {% endif %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segundo bloque: Selección de registro a revisar -->
+        <div class="col-md-8 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Selecciona registro a revisar</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Aquí puedes colocar contenido adicional si es necesario -->
+                </div>
+            </div>
         </div>
     </div>
-    {%else %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10">
-                <div class="card mb-10">
-                    <div class="card-header">
-                        <h5 class="card-title">Seleccion registro a revisar</h5>
-                    </div>
-                    <div class="card-body">
-                        
-                    </div>
-                </div>
-        </div>
-    </div>
+</div>
 
-    {%endif%}
 
+    
 {% endblock  %}
