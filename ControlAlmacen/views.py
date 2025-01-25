@@ -119,12 +119,52 @@ def registroimpo(request):
 
 def registrosRecords(request):
     user = request.user   
+    accept = request.POST.get('idAccept')
+    reject = request.POST.get('idDenide')
+    mfcInterno = request.POST.get('mfcInterno')
+    qty = request.POST.get('qty')
+    coment = request.POST.get('coment')
+    
     if user is not None and user.is_authenticated:
-        template = loader.get_template('almacen/registroCalidad.html') 
+        if user.username == 'almacen':
+            regStatus='Reg_almacen'
+        elif user.username == 'almaCali':
+            regStatus='Reg_Calidad'
+        if request.method == 'POST':
+            if accept is not None or accept != '': 
+                RegistroImpo.objects.filter(id_importacion=accept).update(status=regStatus)
+                ControlAlmacen.objects.create(
+                    fechaMov = date.today().strftime('%Y-%m-%d %H:%M'),
+                    itIdInt = mfcInterno,
+                    Qty = qty,
+                    MovType = 'Entrada By ' + regStatus ,
+                    UserReg = user.username,
+                    id_importacion = accept,
+                    codUnic = date.today().strftime('%y%m%d-') + mfcInterno +'-idimp:' + str(accept)+'-'+user.username
+                    )
+                messages.success(request, "Data updated successfully.")
+                return redirect('registroMovimiento')
+            elif reject is not None or reject != '':
+                RegistroImpo.objects.filter(id_importacion=reject).update(status=regStatus+'-wDiff')
+                ControlAlmacen.objects.create(
+                    fechaMov = date.today().strftime('%Y-%m-%d %H:%M'),
+                    itIdInt = mfcInterno,
+                    Qty = qty,
+                    MovType = 'Entrada By ' + regStatus ,
+                    UserReg = user.username,
+                    id_importacion  = reject,
+                    codUnic = date.today().strftime('%y%m%d-') + mfcInterno +'-idimp:' + str(reject)+'-'+user.username,
+                    comentario = coment
+                    )
+                messages.success(request, "Data updated successfully.")
+                return redirect('/almacen/registroCalidad.html')
+        
+        template = loader.get_template('almacen/registroCalidad.html')
         datosimpo = RegistroImpo.objects.all().filter(status='Pendiente').values()
         context = {
-            'datosimpo': datosimpo,
-        }
-        
-        return HttpResponse(template.render(context, request))
-        
+                'datosimpo': datosimpo,
+            }
+        return HttpResponse(template.render(context, request))   
+    else:
+        return redirect('/') 
+       

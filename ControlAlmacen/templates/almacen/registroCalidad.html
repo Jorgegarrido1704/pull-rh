@@ -40,7 +40,8 @@
                                 <td scope="row">
                                     <form action="{% url 'registroMovimiento' %}" method="POST">
                                        {% csrf_token %}
-                                       <input type="number" min='0'  name="qty" step='0.01' value="{{dato.qty}}" required>
+                                       <input type="number" min='0'  name="qty" step='0.01' value="{{dato.qty}}" width='30px' required>
+                                        <textarea name="coment" id="" cols="10" rows="2" placeholder="WHY??" required></textarea>
                                        <input type="hidden" name="mfcInterno" value="{{dato.mfcInterno}}">
                                        <input type="hidden" name="idDenide" value="{{dato.id_importacion}}">
                                        <hr>

@@ -2,13 +2,14 @@ from django.db import models
 
 class ControlAlmacen(models.Model):
     idRegAlm = models.AutoField(primary_key=True)
+    fechaMov = models.CharField(max_length=30)
     itIdInt = models.CharField(max_length=30)
     Qty = models.FloatField()
     MovType = models.CharField(max_length=30)
     UserReg= models.CharField(max_length=30)
     id_importacion= models.IntegerField(max_length=40)
     codUnic = models.CharField(max_length=80)
-    comentario = models.CharField(max_length=250)
+    comentario = models.CharField(max_length=250, default=' ')
     
     class Meta:
         db_table = 'controlalmacen'
