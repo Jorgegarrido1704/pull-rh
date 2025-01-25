@@ -11,17 +11,24 @@ import openpyxl
 
 def indexAlm(request):
     user=request.user
-    
+    template = loader.get_template('almacen/index.html')
     if user is not None and user.is_authenticated:
         datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').distinct()
+        if user.username == 'comercio':
+            ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:30]
+        elif user.username == 'almacen':
+            ultimosRegistros = RegistroImpo.objects.filter(status='Reg_almacen').values().order_by('-id_importacion')[:30]
+        elif user.username == 'almaCali':
+            ultimosRegistros = RegistroImpo.objects.filter(status='Reg_Calidad').values().order_by('-id_importacion')[:30]    
         
         template = loader.get_template('almacen/index.html')
         context = {
+           'ultimosRegistros': ultimosRegistros,
             'datos': datos,
-            'user': user,
+            'user': user
             
         }
-        return render(request,'almacen/index.html', context)
+        return HttpResponse(template.render(context, request))
 
     else:
         return redirect('/')
@@ -38,7 +45,7 @@ def registroimpo(request):
             # Check if a file was uploaded
             if not archivo:
                 messages.error(request, "No se seleccionó ningún archivo.")
-                return redirect('almacen/registro_importacion.html')
+                return redirect('/almacen/registro_importacion.html')
 
             try:
                 # Load the Excel file
@@ -50,7 +57,7 @@ def registroimpo(request):
                     sheet = workbook["FACTURA"]
                 else:
                     messages.error(request, "El archivo no contiene una hoja llamada 'FACTURA'.")
-                    return redirect('almacen/registro_importacion.html')
+                    return redirect('/almacen/registro_importacion.html')
 
                 # Read specific cells
                 invoce = sheet['F4'].value
@@ -62,7 +69,7 @@ def registroimpo(request):
                         dateinvoce = datetime.strptime(dateinvoce, "%Y-%m-%d").date()
                     except ValueError:
                         messages.error(request, "El formato de la fecha en la celda F5 no es válido.")
-                        return redirect('almacen/registro_importacion.html')
+                        return redirect('/almacen/registro_importacion.html')
 
                 print(f"Invoice: {invoce}, Date: {dateinvoce}")
 
@@ -98,14 +105,14 @@ def registroimpo(request):
                     )
 
                 messages.success(request, "Datos importados exitosamente.")
-                return redirect()
+                return redirect('/almacen/index.html')
 
             except Exception as e:
                 # Log and display the error
                 print(f"Error al procesar el archivo: {e}")
                 messages.error(request, f"Error al procesar el archivo: {e}")
-                return redirect('almacen/registro_importacion.html')
+                return redirect('/almacen/registro_importacion.html')
 
         return render(request, 'almacen/registro_importacion.html')
     else:
-        return redirect('almacen/index.html')
+        return redirect('/almacen/index.html')

@@ -10,8 +10,31 @@
                 <div class="card-header">
                     <h5 class="card-title">Ultimos movimientos</h5>
                 </div>
-                <div class="card-body">
-                    <p class="card-text"> </p>
+                <div class="card-body" id="ultimosMovimientos">
+                    {% if ultimosRegistros != '' %}
+                   <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha movimientos</th>
+                            <th>MFC interno</th>
+                            <th>Cantidad</th>
+                            <th>Invoce</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ultR in ultimosRegistros %}
+                        <tr>
+                            <td scope="row">{{ultR.fechaDeMovimiento}}</td>
+                            <td scope="row" >{{ ultR.mfcInterno}}</td>
+                            <td scope="row">{{ ultR.qty}}</td>
+                            <td scope="row">{{ ultR.invoiceNum}}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                   </table>
+                     {% endif %}
                 </div>
             </div>
         </div>

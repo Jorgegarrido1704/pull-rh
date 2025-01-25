@@ -16,12 +16,17 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
-          
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+              <span data-feather="users">Usuario: </span>
+              {{user.username}}</a>
+          </li>
           <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/controlAlmacen/">
             <span data-feather="home"></span>
             Home</a>
           </li>
+          
           {% if user.username == 'almaCali' %}
             <li class="nav-item">
                 <a class="nav-link" href="/controlAlmacen/registro_entrada_calidad">

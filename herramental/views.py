@@ -2,7 +2,6 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from .models import Herramental,Golpes_diarios,Paros,new_mant
-from datetime import date,timedelta,datetime
 from django.template.loader import render_to_string
 from .form import RegistroHerramental,RegistroGolpes,NewHerramental,Paros_reg,new_mante,addMant
 from django.contrib.auth import logout
