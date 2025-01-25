@@ -121,16 +121,10 @@ def registrosRecords(request):
     user = request.user   
     if user is not None and user.is_authenticated:
         template = loader.get_template('almacen/registroCalidad.html') 
-        datosimpo = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').distinct()
+        datosimpo = RegistroImpo.objects.all().filter(status='Pendiente').values()
         context = {
             'datosimpo': datosimpo,
         }
         
         return HttpResponse(template.render(context, request))
         
-
-def cambios(request):
-    
-    datoRecibido = request.GET.get('impo')
-    datosImpo = RegistroImpo.objects.filter(invoiceNum='datoRecibido').values()
-    return JsonResponse({'status': 'ok','datosImpo': list(datosImpo)})

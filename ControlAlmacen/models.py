@@ -1,19 +1,17 @@
 from django.db import models
 
 class ControlAlmacen(models.Model):
-    id_control = models.AutoField(primary_key=True)
-    id_empleado = models.IntegerField()
-    fecha_registro = models.CharField(max_length=30)
-    mnfint= models.CharField(max_length=30)
-    mnfext= models.CharField(max_length=30)
-    cantidad = models.FloatField()
-    impoNum= models.CharField(max_length=30)
-    impoFecha= models.CharField(max_length=30)
-    codigoUnico= models.CharField(max_length=30)
-    descripcion= models.CharField(max_length=200)
+    idRegAlm = models.AutoField(primary_key=True)
+    itIdInt = models.CharField(max_length=30)
+    Qty = models.FloatField()
+    MovType = models.CharField(max_length=30)
+    UserReg= models.CharField(max_length=30)
+    id_importacion= models.IntegerField(max_length=40)
+    codUnic = models.CharField(max_length=80)
+    comentario = models.CharField(max_length=250)
     
     class Meta:
-        db_table = 'control_almacen'
+        db_table = 'controlalmacen'
         
     def __str__(self):
         return self.impoNum

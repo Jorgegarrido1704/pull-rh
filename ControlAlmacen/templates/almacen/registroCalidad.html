@@ -1,44 +1,88 @@
 {% extends "almacen/master_alma.html" %}
 {% block title %}Registro Calidad{% endblock  %}
 {% block content %}
-    
 <div class="container">
     <div class="row">
         <!-- Primer bloque: Selección de importación -->
-        <div class="col-md-4 mb-3">
+        <div class="col-md-12 mb-12">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Selecciona importación a registrar</h5>
                 </div>
                 <div class="card-body">
-                    <form class="row g-3" method="POST" action="#">
-                        <select class="form-control" name="impo">
-                            {% if datosimpo %}
-                                {% for imp in datosimpo %}
-                                    <option value="{{ imp.invoiceNum }}">{{ imp.invoiceNum }}</option>
-                                {% endfor %}
-                            {% else %}
-                                <option value="">No hay registros</option>
-                            {% endif %}
-                        </select>
-                    </form>
+                    {% if datosimpo %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Invoice Number</th>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Qty accepted</th>
+                                <th>Qty With difference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dato in datosimpo %}
+                            <tr>
+                                <td scope="row">{{dato.invoiceNum}}</td>
+                                <td scope="row">{{dato.mfcInterno}}</td>
+                                <td scope="row">{{dato.qty}}</td>
+                                <td scope="row">
+                                 <form action="{% url 'registroMovimiento' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="number" min='0'  name="qty" step='0.01' value="{{dato.qty}}" required>
+                                    <input type="hidden" name="mfcInterno" value="{{dato.mfcInterno}}">
+                                    <input type="hidden" name="idAccept" value="{{dato.id_importacion}}">
+                                    <hr>
+                                    <button type="submit" class="btn btn-primary">Accepted</button>
+                                </form>
+                                </td>
+                                <td scope="row">
+                                    <form action="{% url 'registroMovimiento' %}" method="POST">
+                                       {% csrf_token %}
+                                       <input type="number" min='0'  name="qty" step='0.01' value="{{dato.qty}}" required>
+                                       <input type="hidden" name="mfcInterno" value="{{dato.mfcInterno}}">
+                                       <input type="hidden" name="idDenide" value="{{dato.id_importacion}}">
+                                       <hr>
+                                       <button type="submit" class="btn btn-danger">Different</button>
+                                   </form>
+                                   </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                        
                 </div>
             </div>
         </div>
 
-        <!-- Segundo bloque: Selección de registro a revisar -->
+        <!-- Segundo bloque: Tabla de datos 
         <div class="col-md-8 mb-3">
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">Selecciona registro a revisar</h5>
                 </div>
                 <div class="card-body">
-                    <!-- Aquí puedes colocar contenido adicional si es necesario -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Invoice Number</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"> -->
+                            <!-- Table rows will be inserted dynamically herex
+                        </tbody>
+                    </table> 
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
+
+
 
 
     
