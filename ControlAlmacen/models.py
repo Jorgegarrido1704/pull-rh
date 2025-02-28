@@ -7,7 +7,7 @@ class ControlAlmacen(models.Model):
     Qty = models.FloatField()
     MovType = models.CharField(max_length=30)
     UserReg= models.CharField(max_length=30)
-    id_importacion= models.IntegerField(max_length=40)
+    id_importacion= models.IntegerField()
     codUnic = models.CharField(max_length=80)
     comentario = models.CharField(max_length=250, default=' ')
     
