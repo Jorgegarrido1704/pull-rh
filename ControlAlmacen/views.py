@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from .models import ControlAlmacen,RegistroImpo
 from django.template.loader import render_to_string
-from datetime import date,timedelta,datetime
+from datetime import date,datetime
 from django.contrib import messages
 import openpyxl
 
@@ -16,9 +16,9 @@ def indexAlm(request):
         datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').distinct()
         if user.username == 'comercio':
             ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:30]
-        elif user.username == 'almacen':
+        elif user.username == 'almacenUser':
             ultimosRegistros = RegistroImpo.objects.filter(status='Reg_almacen').values().order_by('-id_importacion')[:30]
-        elif user.username == 'almaCali':
+        elif user.username == 'calidadAlm':
             ultimosRegistros = RegistroImpo.objects.filter(status='Reg_Calidad').values().order_by('-id_importacion')[:30]    
         
         template = loader.get_template('almacen/index.html')
@@ -45,7 +45,7 @@ def registroimpo(request):
             # Check if a file was uploaded
             if not archivo:
                 messages.error(request, "No se seleccionó ningún archivo.")
-                return redirect('/almacen/registro_importacion.html')
+                return redirect('controlAlmacen')
 
             try:
                 # Load the Excel file
@@ -57,7 +57,7 @@ def registroimpo(request):
                     sheet = workbook["FACTURA"]
                 else:
                     messages.error(request, "El archivo no contiene una hoja llamada 'FACTURA'.")
-                    return redirect('/almacen/registro_importacion.html')
+                    return redirect('controlAlmacen')
 
                 # Read specific cells
                 invoce = sheet['F4'].value
@@ -69,19 +69,19 @@ def registroimpo(request):
                         dateinvoce = datetime.strptime(dateinvoce, "%Y-%m-%d").date()
                     except ValueError:
                         messages.error(request, "El formato de la fecha en la celda F5 no es válido.")
-                        return redirect('/almacen/registro_importacion.html')
+                        return redirect('controlAlmacen')
 
                 print(f"Invoice: {invoce}, Date: {dateinvoce}")
 
                 # Iterate through rows starting from row 19
-                for row in sheet.iter_rows(min_row=19,max_row=518, min_col=1, max_col=18,):
+                for row in sheet.iter_rows(min_row=19,max_row=518, min_col=1, max_col=20,):
                     b = row[1].value  # mfcExterno
                     c = row[2].value  # mfcInterno
                     f = row[5].value  # qty
                     g = row[6].value  # UnitPrice
-                    p = row[15].value  # supplier
-                    q = row[16].value  # poImpo
-                    r = row[17].value  # PrevioNum
+                    p = row[17].value  # supplier
+                    q = row[18].value  # poImpo
+                    r = row[19].value  # PrevioNum
 
                     # If the cell in column B is empty, stop processing
                     if not b:
@@ -105,13 +105,13 @@ def registroimpo(request):
                     )
 
                 messages.success(request, "Datos importados exitosamente.")
-                return redirect('/almacen/index.html')
+                return redirect('controlAlmacen')
 
             except Exception as e:
                 # Log and display the error
                 print(f"Error al procesar el archivo: {e}")
                 messages.error(request, f"Error al procesar el archivo: {e}")
-                return redirect('/almacen/registro_importacion.html')
+                return redirect('controlAlmacen')
 
         return render(request, 'almacen/registro_importacion.html')
     else:
@@ -120,15 +120,14 @@ def registroimpo(request):
 def registrosRecords(request):
     user = request.user   
     accept = request.POST.get('idAccept')
-    reject = request.POST.get('idDenide')
     mfcInterno = request.POST.get('mfcInterno')
     qty = request.POST.get('qty')
     coment = request.POST.get('coment')
     
     if user is not None and user.is_authenticated:
-        if user.username == 'almacen':
+        if user.username == 'almacenUser':
             regStatus='Reg_almacen'
-        elif user.username == 'almaCali':
+        elif user.username == 'calidadAlm':
             regStatus='Reg_Calidad'
         if request.method == 'POST':
             if accept is not None or accept != '': 
@@ -140,25 +139,12 @@ def registrosRecords(request):
                     MovType = 'Entrada By ' + regStatus ,
                     UserReg = user.username,
                     id_importacion = accept,
-                    codUnic = date.today().strftime('%y%m%d-') + mfcInterno +'-idimp:' + str(accept)+'-'+user.username
-                    )
-                messages.success(request, "Data updated successfully.")
-                return redirect('registroMovimiento')
-            elif reject is not None or reject != '':
-                RegistroImpo.objects.filter(id_importacion=reject).update(status=regStatus+'-wDiff')
-                ControlAlmacen.objects.create(
-                    fechaMov = date.today().strftime('%Y-%m-%d %H:%M'),
-                    itIdInt = mfcInterno,
-                    Qty = qty,
-                    MovType = 'Entrada By ' + regStatus ,
-                    UserReg = user.username,
-                    id_importacion  = reject,
-                    codUnic = date.today().strftime('%y%m%d-') + mfcInterno +'-idimp:' + str(reject)+'-'+user.username,
+                    codUnic = date.today().strftime('%y%m%d-') + mfcInterno +'-#id' + str(accept)+'#-'+user.username,
                     comentario = coment
                     )
                 messages.success(request, "Data updated successfully.")
-                return redirect('/almacen/registroCalidad.html')
-        
+                return redirect('registroMovimiento')
+            
         template = loader.get_template('almacen/registroCalidad.html')
         datosimpo = RegistroImpo.objects.all().filter(status='Pendiente').values()
         context = {

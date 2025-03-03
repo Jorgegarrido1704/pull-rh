@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -14,12 +15,10 @@ def user_login(request):
                 return redirect('pull/test')
             if user.groups.filter(name='rh_').exists():
                 return redirect('rh/')
-            if user.groups.filter(name='herramental').exists():
+            if user.groups.filter(name='herramental',).exists():
                 return redirect('herramental/')
-            if user.groups.filter(name='almacen').exists():
-                return redirect('controlAlmacen/')
-            if user.groups.filter(name='almacenCalidad').exists():
-                return redirect('controlAlmacen/')
+            if user.groups.filter(name='almacenControl').exists():
+                 return redirect('controlAlmacen/')
             else:    
                 return redirect('pull/')  
         else:

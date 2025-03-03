@@ -16,9 +16,8 @@
                             <tr>
                                 <th>Invoice Number</th>
                                 <th>Item</th>
-                                <th>Qty</th>
-                                <th>Qty accepted</th>
-                                <th>Qty With difference</th>
+                                <th>Qty Org</th>
+                                <th>Qty accepted and Comment</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,23 +30,14 @@
                                  <form action="{% url 'registroMovimiento' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="number" min='0'  name="qty" step='0.01' value="{{dato.qty}}" required>
+                                    <textarea name="coment" id="" cols="10" rows="2" placeholder="Why?" required></textarea>
                                     <input type="hidden" name="mfcInterno" value="{{dato.mfcInterno}}">
                                     <input type="hidden" name="idAccept" value="{{dato.id_importacion}}">
                                     <hr>
                                     <button type="submit" class="btn btn-primary">Accepted</button>
                                 </form>
                                 </td>
-                                <td scope="row">
-                                    <form action="{% url 'registroMovimiento' %}" method="POST">
-                                       {% csrf_token %}
-                                       <input type="number" min='0'  name="qty" step='0.01' value="{{dato.qty}}" width='30px' required>
-                                        <textarea name="coment" id="" cols="10" rows="2" placeholder="WHY??" required></textarea>
-                                       <input type="hidden" name="mfcInterno" value="{{dato.mfcInterno}}">
-                                       <input type="hidden" name="idDenide" value="{{dato.id_importacion}}">
-                                       <hr>
-                                       <button type="submit" class="btn btn-danger">Different</button>
-                                   </form>
-                                   </td>
+                               
                             </tr>
                             {% endfor %}
                         </tbody>
