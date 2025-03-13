@@ -17,9 +17,9 @@ def indexAlm(request):
         if user.username == 'comercio':
             ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:30]
         elif user.username == 'almacenUser':
-            ultimosRegistros = RegistroImpo.objects.filter(status='Reg_almacen').values().order_by('-id_importacion')[:30]
+            ultimosRegistros = ControlAlmacen.objects.filter(MovType='Entrada By Reg_almacen').values().order_by('-idRegAlm')[:30]
         elif user.username == 'calidadAlm':
-            ultimosRegistros = RegistroImpo.objects.filter(status='Reg_Calidad').values().order_by('-id_importacion')[:30]    
+            ultimosRegistros = ControlAlmacen.objects.filter(MovType='Entrada By Reg_Calidad').values().order_by('-idRegAlm')[:30]    
         
         template = loader.get_template('almacen/index.html')
         context = {
@@ -133,7 +133,7 @@ def registrosRecords(request):
             if accept is not None or accept != '': 
                 RegistroImpo.objects.filter(id_importacion=accept).update(status=regStatus)
                 ControlAlmacen.objects.create(
-                    fechaMov = date.today().strftime('%Y-%m-%d %H:%M'),
+                    fechaMov = date.today().strftime('%Y-%m-%d'),
                     itIdInt = mfcInterno,
                     Qty = qty,
                     MovType = 'Entrada By ' + regStatus ,

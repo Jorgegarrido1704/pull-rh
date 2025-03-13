@@ -18,17 +18,17 @@
                             <th>Fecha movimientos</th>
                             <th>MFC interno</th>
                             <th>Cantidad</th>
-                            <th>Invoce</th>
+                            <th>Comentario</th>
                            
                         </tr>
                     </thead>
                     <tbody>
                         {% for ultR in ultimosRegistros %}
                         <tr>
-                            <td scope="row">{{ultR.fechaDeMovimiento}}</td>
-                            <td scope="row" >{{ ultR.mfcInterno}}</td>
-                            <td scope="row">{{ ultR.qty}}</td>
-                            <td scope="row">{{ ultR.invoiceNum}}</td>
+                            <td scope="row">{{ultR.fechaMov}}</td>
+                            <td scope="row" >{{ ultR.itIdInt}}</td>
+                            <td scope="row">{{ ultR.Qty}}</td>
+                            <td scope="row">{{ ultR.comentario}}</td>
                             
                         </tr>
                         {% endfor %}
