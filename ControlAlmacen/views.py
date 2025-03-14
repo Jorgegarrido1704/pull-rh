@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from datetime import date,datetime
 from django.contrib import messages
 import openpyxl
+import pandas as pd
 
 # Create your views here.
 
@@ -13,9 +14,9 @@ def indexAlm(request):
     user=request.user
     template = loader.get_template('almacen/index.html')
     if user is not None and user.is_authenticated:
-        datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').distinct()
+        datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').order_by('-invoiceNum').distinct()[:10]
         if user.username == 'comercio':
-            ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:30]
+            ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:100]
         elif user.username == 'almacenUser':
             ultimosRegistros = ControlAlmacen.objects.filter(MovType='Entrada By Reg_almacen').values().order_by('-idRegAlm')[:30]
         elif user.username == 'calidadAlm':
@@ -34,88 +35,73 @@ def indexAlm(request):
         return redirect('/')
 
 
-
-
 def registroimpo(request):
     user = request.user
-    if user is not None and user.is_authenticated:
-        if request.method == 'POST':
-            archivo = request.FILES.get('archivo')
-
-            # Check if a file was uploaded
-            if not archivo:
-                messages.error(request, "No se seleccionó ningún archivo.")
-                return redirect('controlAlmacen')
-
-            try:
-                # Load the Excel file
-                workbook = openpyxl.load_workbook(archivo)
-                print(f"Archivo recibido: {archivo.name}")
-
-                # Select the sheet named "FACTURA"
-                if "FACTURA" in workbook.sheetnames:
-                    sheet = workbook["FACTURA"]
-                else:
-                    messages.error(request, "El archivo no contiene una hoja llamada 'FACTURA'.")
-                    return redirect('controlAlmacen')
-
-                # Read specific cells
-                invoce = sheet['F4'].value
-                dateinvoce = sheet['F5'].value
-
-                # Convert date if needed
-                if isinstance(dateinvoce, str):
-                    try:
-                        dateinvoce = datetime.strptime(dateinvoce, "%Y-%m-%d").date()
-                    except ValueError:
-                        messages.error(request, "El formato de la fecha en la celda F5 no es válido.")
-                        return redirect('controlAlmacen')
-
-                print(f"Invoice: {invoce}, Date: {dateinvoce}")
-
-                # Iterate through rows starting from row 19
-                for row in sheet.iter_rows(min_row=19,max_row=518, min_col=1, max_col=20,):
-                    b = row[1].value  # mfcExterno
-                    c = row[2].value  # mfcInterno
-                    f = row[5].value  # qty
-                    g = row[6].value  # UnitPrice
-                    p = row[17].value  # supplier
-                    q = row[18].value  # poImpo
-                    r = row[19].value  # PrevioNum
-
-                    # If the cell in column B is empty, stop processing
-                    if not b:
-                        break
-
-                    print(f"Processing row: {b}, {c}, {f}, {g}, {p}, {q}, {r}")
-
-                    # Create a new RegistroImpo entry
-                    RegistroImpo.objects.create(
-                        fechaDeMovimiento=date.today(),
-                        invoiceNum=invoce,
-                        fechaImpo=dateinvoce,
-                        mfcExterno=b,
-                        mfcInterno=c,
-                        qty=f,
-                        UnitPrice=g,
-                        supplier=p,
-                        PoImpo=q,
-                        previoNum=r,
-                        UserImpoCharge=user
-                    )
-
-                messages.success(request, "Datos importados exitosamente.")
-                return redirect('controlAlmacen')
-
-            except Exception as e:
-                # Log and display the error
-                print(f"Error al procesar el archivo: {e}")
-                messages.error(request, f"Error al procesar el archivo: {e}")
-                return redirect('controlAlmacen')
-
+    if not user or not user.is_authenticated:
+        return redirect('/')
+    if request.method != 'POST':
         return render(request, 'almacen/registro_importacion.html')
-    else:
-        return redirect('/almacen/index.html')
+
+    archivo = request.FILES.get('archivo')
+    invoice = request.POST.get('invoice')
+    date_invoice = request.POST.get('dateinvoce')
+
+    if not archivo:
+        messages.error(request, "No se seleccionó ningún archivo.")
+        return redirect('indexAlm')
+
+    try:
+        df = pd.read_excel(
+        archivo,
+        skiprows=17,
+        nrows=533,  # 550 - 17 = 533 rows to read
+        usecols=[1,2,5,6,15,16,17],  # Read columns from 1 to 18
+        names=[
+            'Model Number', 'Customer Part #', 'Qty', 'Unit Price',
+             'Supplier', 'PO #', 'PREVIO'
+        ]
+    )
+
+# Print the columns to verify
+        print(df.columns)
+
+# Iterate through the rows of the DataFrame
+        for _, row in df.iterrows():
+    # Unpack the row values
+            b, c, f, g, p, q, r = row.values[:7]  # Only unpack the expected 7 columns
+
+            # Skip processing if 'Model Number' (b) is null or empty
+            if pd.isna(b) or b == "":
+                print("Skipping row with empty Model Number")
+                continue
+
+            print(f"Processing row: {b}, {c}, {f}, {g}, {p}, {q}, {r}")
+
+    # Create a new record in RegistroImpo
+            RegistroImpo.objects.create(
+                fechaDeMovimiento=date.today(),
+                invoiceNum=invoice,
+                fechaImpo=date_invoice,
+                mfcExterno=b,
+                mfcInterno=c,
+                qty=f,
+                UnitPrice=g,
+                supplier=p,
+                PoImpo=q,
+                previoNum=r,
+                UserImpoCharge=user
+            )
+
+        messages.success(request, "Datos importados exitosamente.")
+        return redirect('indexAlm')
+
+    except Exception as e:
+        print(f"Error al procesar el archivo: {e}")
+        messages.error(request, f"Error al procesar el archivo: {e}")
+        return redirect('indexAlm')
+
+
+
 
 def registrosRecords(request):
     user = request.user   

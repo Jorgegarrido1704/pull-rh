@@ -14,6 +14,14 @@
                             {% csrf_token %}
                             <div class="row">
                               <div class="col-md-6 mb-3">
+                                <label class="form-label" for="invoice">invoice</label>
+                                <input type="text" class="form-control" id="invoice" name="invoice" required>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <label class="form-label" for="dateinvoce">Date invoce</label>
+                                <input type="date" class="form-control" id="dateinvoce" name="dateinvoce" required>
+                              </div>
+                              <div class="col-md-6 mb-3">
                                 <label for="archivo">Alta importaciones</label>
                                 <input type="file" class="form-control" id="archivo" name="archivo" accept=".xlsx, .xls" required >
                           </div>

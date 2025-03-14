@@ -23,13 +23,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                       
                         {% for ultR in ultimosRegistros %}
                         <tr>
-                            <td scope="row">{{ultR.fechaMov}}</td>
-                            <td scope="row" >{{ ultR.itIdInt}}</td>
-                            <td scope="row">{{ ultR.Qty}}</td>
-                            <td scope="row">{{ ultR.comentario}}</td>
-                            
+                            {% if user.username == 'comercio' %}
+                            <td scope="row">{{ultR.fechaDeMovimiento}}</td>
+                            <td scope="row" >{{ ultR.mfcInterno}}</td>
+                            <td scope="row">{{ ultR.qty}}</td>
+                            <td scope="row">-</td>
+                            {% else %}
+                                <td scope="row">{{ultR.fechaMov}}</td>
+                                <td scope="row" >{{ ultR.itIdInt}}</td>
+                                <td scope="row">{{ ultR.Qty}}</td>
+                                <td scope="row">{{ ultR.comentario}}</td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
