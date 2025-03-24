@@ -15,7 +15,7 @@ def indexAlm(request):
     template = loader.get_template('almacen/index.html')
     if user is not None and user.is_authenticated:
         datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').order_by('-invoiceNum').distinct()[:10]
-        if user.username == 'comercio':
+        if user.username == 'comercio' or user.username == 'Indihra_M' or user.username == 'Rocio_F' or user.username == 'Favian_M' or user.username == 'Fatima_S':
             ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:100]
         elif user.username == 'almacenUser':
             ultimosRegistros = ControlAlmacen.objects.filter(MovType='Entrada By Reg_almacen').values().order_by('-idRegAlm')[:30]
@@ -55,11 +55,11 @@ def registroimpo(request):
         archivo,
         skiprows=17,
         nrows=533,  # 550 - 17 = 533 rows to read
-        usecols=[1,2,5,6,15,16,17],  # Read columns from 1 to 18
+        usecols=[1,2,5,6,17,18,19], # Read columns from 1 to 18
         names=[
             'Model Number', 'Customer Part #', 'Qty', 'Unit Price',
              'Supplier', 'PO #', 'PREVIO'
-        ]
+            ]
     )
 
 # Print the columns to verify
@@ -68,14 +68,14 @@ def registroimpo(request):
 # Iterate through the rows of the DataFrame
         for _, row in df.iterrows():
     # Unpack the row values
-            b, c, f, g, p, q, r = row.values[:7]  # Only unpack the expected 7 columns
+            b, c, f, g, r, s, t = row.values[:7]  # Only unpack the expected 7 columns
 
             # Skip processing if 'Model Number' (b) is null or empty
             if pd.isna(b) or b == "":
                 print("Skipping row with empty Model Number")
                 continue
 
-            print(f"Processing row: {b}, {c}, {f}, {g}, {p}, {q}, {r}")
+            print(f"Processing row: {b}, {c}, {f}, {g}, {r}, {s}, {t}")
 
     # Create a new record in RegistroImpo
             RegistroImpo.objects.create(
@@ -86,9 +86,9 @@ def registroimpo(request):
                 mfcInterno=c,
                 qty=f,
                 UnitPrice=g,
-                supplier=p,
-                PoImpo=q,
-                previoNum=r,
+                supplier=r,
+                PoImpo=s,
+                previoNum=t,
                 UserImpoCharge=user
             )
 
