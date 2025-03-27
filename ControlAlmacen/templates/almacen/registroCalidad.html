@@ -15,7 +15,8 @@
                         <thead>
                             <tr>
                                 <th>Invoice Number</th>
-                                <th>Item</th>
+                                <th>Item Interno</th>
+                                <th>Item Extrerno</th>
                                 <th>Qty Org</th>
                                 <th>Qty accepted and Comment</th>
                             </tr>
@@ -25,6 +26,7 @@
                             <tr>
                                 <td scope="row">{{dato.invoiceNum}}</td>
                                 <td scope="row">{{dato.mfcInterno}}</td>
+                                <td scope="row">{{dato.mfcExterno}}</td>
                                 <td scope="row">{{dato.qty}}</td>
                                 <td scope="row">
                                  <form action="{% url 'registroMovimiento' %}" method="POST">
