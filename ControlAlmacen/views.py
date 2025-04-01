@@ -17,9 +17,9 @@ def indexAlm(request):
         datos = RegistroImpo.objects.filter(status='Pendiente').values('invoiceNum').order_by('-invoiceNum').distinct()[:10]
         if user.username == 'comercio' or user.username == 'Indihra_M' or user.username == 'Rocio_F' or user.username == 'Favian_M' or user.username == 'Fatima_S':
             ultimosRegistros = RegistroImpo.objects.filter(status='Pendiente').values().order_by('-id_importacion')[:100]
-        elif user.username == 'almacenUser':
+        elif user.username == 'almacenUser' or user.username == 'Andrea_P' :
             ultimosRegistros = ControlAlmacen.objects.filter(MovType='Entrada By Reg_almacen').values().order_by('-idRegAlm')[:30]
-        elif user.username == 'calidadAlm':
+        elif user.username == 'calidadAlm' or user.username == 'Edward_M' or user.username == 'Daniela_R':
             ultimosRegistros = ControlAlmacen.objects.filter(MovType='Entrada By Reg_Calidad').values().order_by('-idRegAlm')[:30]    
         
         template = loader.get_template('almacen/index.html')
