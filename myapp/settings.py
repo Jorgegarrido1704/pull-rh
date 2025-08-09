@@ -14,7 +14,8 @@ from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR_STR = str(BASE_DIR)
+import django.conf
+django.conf.settings.BASE_DIR = str(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
