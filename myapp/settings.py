@@ -90,7 +90,7 @@ DATABASES = {
         'NAME': 'trazabilidad',
         'USER': 'pcadmin',
         'PASSWORD': 'SupAdmin1212',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '3306',  # Default is 3306
          'OPTIONS': {
             'charset': 'utf8mb4',
