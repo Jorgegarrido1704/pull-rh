@@ -111,9 +111,9 @@ def registrosRecords(request):
     coment = request.POST.get('coment')
     
     if user is not None and user.is_authenticated:
-        if user.username == 'almacenUser':
+        if user.username == 'almacenUser' or user.username == 'Andrea_P' :
             regStatus='Reg_almacen'
-        elif user.username == 'calidadAlm':
+        elif user.username == 'calidadAlm' or user.username == 'Edward_M' or user.username == 'Daniela_R':
             regStatus='Reg_Calidad'
         if request.method == 'POST':
             if accept is not None or accept != '': 
